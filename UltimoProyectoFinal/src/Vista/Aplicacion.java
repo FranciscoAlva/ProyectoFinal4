@@ -4,6 +4,8 @@ import Modelo.Donante;
 import Modelo.DonanteDAO;
 import Modelo.Productos;
 import Modelo.ProductosDAO;
+import Modelo.ONG;
+import Modelo.ONGDAO;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -14,6 +16,8 @@ public class Aplicacion extends javax.swing.JFrame {
     DonanteDAO donan2 = new DonanteDAO();
     Productos pro = new Productos();
     ProductosDAO proDAO = new ProductosDAO();
+    ONG ONG = new ONG();
+    ONGDAO ONGDAO = new ONGDAO();
     DefaultTableModel Modelo = new DefaultTableModel();
 
     public Aplicacion() {
@@ -53,6 +57,22 @@ public class Aplicacion extends javax.swing.JFrame {
             Modelo.addRow(ob);
         }
         tablaProductos.setModel(Modelo);
+    }
+    
+    public void tablaONG() {
+        List<ONG> TablaONG = ONGDAO.TablaONG();
+        Modelo = (DefaultTableModel) tablaONG.getModel();
+        Object[] ob = new Object[6];
+        for (int i = 0; i < TablaONG.size(); i++) {
+            ob[0] = TablaONG.get(i).getIDONG();
+            ob[1] = TablaONG.get(i).getIDONG();
+            ob[2] = TablaONG.get(i).getCIFONG();
+            ob[3] = TablaONG.get(i).getDireccionONG();
+            ob[4] = TablaONG.get(i).getTelefonoONG();
+            ob[5] = TablaONG.get(i).getEmailONG();
+            Modelo.addRow(ob);
+        }
+        tablaDonantes.setModel(Modelo);
     }
 
     //LIMPIAR TABLAS
@@ -970,8 +990,18 @@ public class Aplicacion extends javax.swing.JFrame {
         });
 
         btnModificarONG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/modificar.png"))); // NOI18N
+        btnModificarONG.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarONGActionPerformed(evt);
+            }
+        });
 
         btnEliminarONG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/eliminar.png"))); // NOI18N
+        btnEliminarONG.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarONGActionPerformed(evt);
+            }
+        });
 
         btnExcelONG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/excel.png"))); // NOI18N
 
@@ -1070,6 +1100,11 @@ public class Aplicacion extends javax.swing.JFrame {
                 "ID", "Nombre", "CIF", "Direccion", "Telefono", "Email"
             }
         ));
+        tablaONG.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaONGMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(tablaONG);
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
@@ -2117,6 +2152,9 @@ public class Aplicacion extends javax.swing.JFrame {
     //BOTON ONG
     private void btnONGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnONGActionPerformed
         panelPrincipal.setSelectedComponent(panelONG);
+        LimpiarTabla();
+        tablaONG();
+        panelPrincipal.setSelectedIndex(2);
     }//GEN-LAST:event_btnONGActionPerformed
 
     //BOTON ZONA AFECTADA
@@ -2146,19 +2184,19 @@ public class Aplicacion extends javax.swing.JFrame {
 
     //BOTON DE GUARDAR ONG
     private void btnGuardarONGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarONGActionPerformed
-        if (!"".equals(txtNombre.getText()) || !"".equals(txtApellidos.getText()) || !"".equals(txtDNI.getText()) || !"".equals(txtEmail.getText()) || !"".equals(txtDireccion.getText())) {
-            donan.setNombre(txtNombre.getText());
-            donan.setApellidos(txtApellidos.getText());
-            donan.setDNI(txtDNI.getText());
-            donan.setEmail(txtEmail.getText());
-            donan.setDireccion(txtDireccion.getText());
-            donan2.RegistrarDonante(donan);
+        if (!"".equals(txtNombreONG.getText()) || !"".equals(txtCIFONG.getText()) || !"".equals(txtDireccionONG.getText()) || !"".equals(txtTelefonoONG.getText()) || !"".equals(txtEmailONG.getText())) {
+            ONG.setNombreONG(txtNombreONG.getText());
+            ONG.setCIFONG(txtCIFONG.getText());
+            ONG.setDireccionONG(txtDireccionONG.getText());
+            ONG.setTelefonoONG(txtTelefonoONG.getText());
+            ONG.setEmailONG(txtEmailONG.getText());
+            ONGDAO.RegistrarONG(ONG);
             LimpiarTabla();
-            LimpiarDonantes();
-            tablaDonantes();
-            JOptionPane.showMessageDialog(null, "Donante Resgistrado");
+            LimpiarONG();
+            tablaONG();
+            JOptionPane.showMessageDialog(null, "ONG RESGISTRADA");
         } else {
-            JOptionPane.showMessageDialog(null, "Exiten campos Vacios");
+            JOptionPane.showMessageDialog(null, "EXISTEN CAMPOS VACIOS");
         }
 
     }//GEN-LAST:event_btnGuardarONGActionPerformed
@@ -2189,6 +2227,7 @@ public class Aplicacion extends javax.swing.JFrame {
                 LimpiarTabla();
                 LimpiarDonantes();
                 tablaDonantes();
+                JOptionPane.showMessageDialog(null, "DONANTE MODIFICADO");
             } else {
                 JOptionPane.showMessageDialog(null, "EXISTEN CAMPOS VACIOS");
             }
@@ -2222,9 +2261,9 @@ public class Aplicacion extends javax.swing.JFrame {
             LimpiarTabla();
             LimpiarProductos();
             tablaProductos();
-            JOptionPane.showMessageDialog(null, "Producto Guardado");
+            JOptionPane.showMessageDialog(null, "PRODUCTO REGISTRADO");
         } else {
-            JOptionPane.showMessageDialog(null, "Exiten campos Vacios");
+            JOptionPane.showMessageDialog(null, "EXISTEN CAMPOS VACIOS");
         }
 
     }//GEN-LAST:event_btnGuardarProductosActionPerformed
@@ -2253,9 +2292,9 @@ public class Aplicacion extends javax.swing.JFrame {
             LimpiarTabla();
             LimpiarDonantes();
             tablaDonantes();
-            JOptionPane.showMessageDialog(null, "Donante Resgistrado");
+            JOptionPane.showMessageDialog(null, "DONANTE REGISTRADO");
         } else {
-            JOptionPane.showMessageDialog(null, "Exiten campos Vacios");
+            JOptionPane.showMessageDialog(null, "EXISTEN CAMPOS VACIOS");
         }
     }//GEN-LAST:event_btnGuardarDonantesActionPerformed
 
@@ -2275,7 +2314,7 @@ public class Aplicacion extends javax.swing.JFrame {
                 LimpiarTabla();
                 LimpiarProductos();
                 tablaProductos();
-                JOptionPane.showMessageDialog(null, "Producto Modificado");
+                JOptionPane.showMessageDialog(null, "PRODUCTO MODIFICADO");
             } else {
                 JOptionPane.showMessageDialog(null, "EXISTEN CAMPOS VACIOS");
             }
@@ -2295,6 +2334,53 @@ public class Aplicacion extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnEliminarProductosActionPerformed
+
+    //SELECCIONAR FILA DE TABLA ONG
+    private void tablaONGMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaONGMouseClicked
+        int fila = tablaONG.rowAtPoint(evt.getPoint());
+        txtIDONG.setText(tablaONG.getValueAt(fila, 0).toString());
+        txtNombreONG.setText(tablaONG.getValueAt(fila, 1).toString());
+        txtCIFONG.setText(tablaONG.getValueAt(fila, 2).toString());
+        txtDireccionONG.setText(tablaONG.getValueAt(fila, 3).toString());
+        txtTelefonoONG.setText(tablaONG.getValueAt(fila, 4).toString());
+        txtEmailONG.setText(tablaONG.getValueAt(fila, 5).toString());
+    }//GEN-LAST:event_tablaONGMouseClicked
+
+    //BOTON MODIFICAR ONG
+    private void btnModificarONGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarONGActionPerformed
+        if ("".equals(txtIDONG.getText())) {
+            JOptionPane.showMessageDialog(null, "Selecciona una fila");
+        } else {
+            if (!"".equals(txtNombreONG.getText()) && !"".equals(txtCIFONG.getText()) && !"".equals(txtDireccionONG.getText()) && !"".equals(txtTelefonoONG.getText()) && !"".equals(txtEmailONG.getText())) {
+                ONG.setNombreONG(txtNombreONG.getText());
+                ONG.setCIFONG(txtCIFONG.getText());
+                ONG.setDireccionONG(txtDireccionONG.getText());
+                ONG.setTelefonoONG(txtTelefonoONG.getText());
+                ONG.setEmailONG(txtEmailONG.getText());
+                ONGDAO.RegistrarONG(ONG);
+                LimpiarTabla();
+                LimpiarONG();
+                tablaONG();
+                JOptionPane.showMessageDialog(null, "ONG MODIFICADA");
+            } else {
+                JOptionPane.showMessageDialog(null, "EXISTEN CAMPOS VACIOS");
+            }
+        }
+    }//GEN-LAST:event_btnModificarONGActionPerformed
+
+    //BOTON ELIMINAR ONG
+    private void btnEliminarONGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarONGActionPerformed
+        if (!"".equals(txtIDONG.getText())) {
+            int pregunta = JOptionPane.showConfirmDialog(null, "ELIMINAR REGISTRO");
+            if (pregunta == 0) {
+                int IDONG = Integer.parseInt(txtIDONG.getText());
+                ONGDAO.EliminarONG(IDONG);
+                LimpiarTabla();
+                LimpiarONG();
+                tablaONG();
+            }
+        }
+    }//GEN-LAST:event_btnEliminarONGActionPerformed
 
     public static void main(String args[]) {
 
@@ -2563,6 +2649,16 @@ public class Aplicacion extends javax.swing.JFrame {
         txtCantidadProductos.setText("");
         txtIDDonante.setText("");
         txtNombreONG2.setText("");
+    }
+    
+    public void LimpiarONG() {
+
+        txtIDONG.setText("");
+        txtNombreONG.setText("");
+        txtCIFONG.setText("");
+        txtDireccionONG.setText("");
+        txtTelefonoONG.setText("");
+        txtEmailONG.setText("");
     }
 
 }

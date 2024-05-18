@@ -1360,6 +1360,9 @@
                       <Image iconType="3" name="/Imagenes/modificar.png"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnModificarONGActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="btnEliminarONG">
                   <Properties>
@@ -1367,6 +1370,9 @@
                       <Image iconType="3" name="/Imagenes/eliminar.png"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEliminarONGActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="btnExcelONG">
                   <Properties>
@@ -1462,6 +1468,9 @@
                           </Table>
                         </Property>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tablaONGMouseClicked"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
