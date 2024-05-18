@@ -1,16 +1,46 @@
 package Vista;
 
-
+import Modelo.Donante;
+import Modelo.DonanteDAO;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 public class Aplicacion extends javax.swing.JFrame {
 
-    
+    Donante donan = new Donante();
+    DonanteDAO donan2 = new DonanteDAO();
+    DefaultTableModel Modelo = new DefaultTableModel();
+
     public Aplicacion() {
         initComponents();
         this.setLocationRelativeTo(null);
     }
 
-    
+    public void tablaDonantes() {
+        List<Donante> TablaDo = donan2.TablaDonantes();
+        Modelo = (DefaultTableModel) tablaDonantes.getModel();
+        Object[] ob = new Object[6];
+        for (int i = 0; i < TablaDo.size(); i++) {
+            ob[0] = TablaDo.get(i).getID();
+            ob[1] = TablaDo.get(i).getNombre();
+            ob[2] = TablaDo.get(i).getApellidos();
+            ob[3] = TablaDo.get(i).getDNI();
+            ob[4] = TablaDo.get(i).getEmail();
+            ob[5] = TablaDo.get(i).getDireccion();
+            Modelo.addRow(ob);
+        }
+        tablaDonantes.setModel(Modelo);
+    }
+
+    public void LimpiarTabla() {
+
+        for (int i = 0; i < Modelo.getRowCount(); i++) {
+            Modelo.removeRow(i);
+            i = i - 1;
+        }
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -430,9 +460,19 @@ public class Aplicacion extends javax.swing.JFrame {
 
         btnModificarDonantes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/modificar.png"))); // NOI18N
         btnModificarDonantes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnModificarDonantes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarDonantesActionPerformed(evt);
+            }
+        });
 
         btnEliminarDonantes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/eliminar.png"))); // NOI18N
         btnEliminarDonantes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnEliminarDonantes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarDonantesActionPerformed(evt);
+            }
+        });
 
         btnExcelDonantes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/excel.png"))); // NOI18N
         btnExcelDonantes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -521,6 +561,11 @@ public class Aplicacion extends javax.swing.JFrame {
                 "ID", "Nombre", "Apellidos", "DNI", "Email", "Direccion"
             }
         ));
+        tablaDonantes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaDonantesMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tablaDonantes);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -856,6 +901,11 @@ public class Aplicacion extends javax.swing.JFrame {
         txtDireccionONG.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         btnGuardarONG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/guardar.png"))); // NOI18N
+        btnGuardarONG.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarONGActionPerformed(evt);
+            }
+        });
 
         btnModificarONG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/modificar.png"))); // NOI18N
 
@@ -1984,7 +2034,10 @@ public class Aplicacion extends javax.swing.JFrame {
 
     //BOTON DONANTES
     private void btnDonantesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDonantesActionPerformed
-       panelPrincipal.setSelectedComponent(panelDonantes);
+        panelPrincipal.setSelectedComponent(panelDonantes);
+        LimpiarTabla();
+        tablaDonantes();
+        panelPrincipal.setSelectedIndex(0);
     }//GEN-LAST:event_btnDonantesActionPerformed
 
     //BOTON PRODUCTOS
@@ -2022,9 +2075,73 @@ public class Aplicacion extends javax.swing.JFrame {
         panelPrincipal.setSelectedComponent(panelDatos);
     }//GEN-LAST:event_btnDatosActionPerformed
 
+    //BOTON DE GUARDAR DONANTES
+    private void btnGuardarONGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarONGActionPerformed
+        if (!"".equals(txtNombre.getText()) || !"".equals(txtApellidos.getText()) || !"".equals(txtDNI.getText()) || !"".equals(txtEmail.getText()) || !"".equals(txtDireccion.getText())) {
+            donan.setNombre(txtNombre.getText());
+            donan.setApellidos(txtApellidos.getText());
+            donan.setDNI(txtDNI.getText());
+            donan.setEmail(txtEmail.getText());
+            donan.setDireccion(txtDireccion.getText());
+            donan2.RegistrarDonante(donan);
+            LimpiarTabla();
+            LimpiarDonantes();
+            tablaDonantes();
+            JOptionPane.showMessageDialog(null, "Donante Resgistrado");
+        } else {
+            JOptionPane.showMessageDialog(null, "Exiten campos Vacios");
+        }
     
+    }//GEN-LAST:event_btnGuardarONGActionPerformed
+
+    //SELECCIONAR FILA DE TABLA DONANTES
+    private void tablaDonantesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaDonantesMouseClicked
+        int fila = tablaDonantes.rowAtPoint(evt.getPoint());
+        txtID.setText(tablaDonantes.getValueAt(fila, 0).toString());
+        txtNombre.setText(tablaDonantes.getValueAt(fila, 1).toString());
+        txtApellidos.setText(tablaDonantes.getValueAt(fila, 2).toString());
+        txtDNI.setText(tablaDonantes.getValueAt(fila, 3).toString());
+        txtEmail.setText(tablaDonantes.getValueAt(fila, 4).toString());
+        txtDireccion.setText(tablaDonantes.getValueAt(fila, 5).toString());
+    }//GEN-LAST:event_tablaDonantesMouseClicked
+
+    //BOTON MODIFICAR DONANTES
+    private void btnModificarDonantesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarDonantesActionPerformed
+        if ("".equals(txtID.getText())) {
+            JOptionPane.showMessageDialog(null, "Selecciona una fila");
+        } else {
+            if (!"".equals(txtNombre.getText()) && !"".equals(txtApellidos.getText()) && !"".equals(txtDNI.getText()) && !"".equals(txtEmail.getText()) && !"".equals(txtDireccion.getText())) {
+                donan.setNombre(txtNombre.getText());
+                donan.setApellidos(txtApellidos.getText());
+                donan.setDNI(txtDNI.getText());
+                donan.setEmail(txtEmail.getText());
+                donan.setDireccion(txtDireccion.getText());
+                donan2.RegistrarDonante(donan);
+                LimpiarTabla();
+                LimpiarDonantes();
+                tablaDonantes();
+            } else {
+                JOptionPane.showMessageDialog(null, "EXISTEN CAMPOS VACIOS");
+            }
+        }
+    }//GEN-LAST:event_btnModificarDonantesActionPerformed
+
+    //BOTON ELIMINAR DONANTES
+    private void btnEliminarDonantesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarDonantesActionPerformed
+        if (!"".equals(txtID.getText())) {
+            int pregunta = JOptionPane.showConfirmDialog(null, "ELIMINAR REGISTRO");
+            if (pregunta == 0) {
+                int ID = Integer.parseInt(txtID.getText());
+                donan2.EliminarDonantes(ID);
+                LimpiarTabla();
+                LimpiarDonantes();
+                tablaDonantes();
+            }
+        }
+    }//GEN-LAST:event_btnEliminarDonantesActionPerformed
+
     public static void main(String args[]) {
-        
+
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
@@ -2047,7 +2164,6 @@ public class Aplicacion extends javax.swing.JFrame {
         }
         //</editor-fold>
 
-        
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Aplicacion().setVisible(true);
@@ -2271,4 +2387,15 @@ public class Aplicacion extends javax.swing.JFrame {
     private javax.swing.JTextField txtResponsableSedes;
     private javax.swing.JTextField txtTelefonoONG;
     // End of variables declaration//GEN-END:variables
+
+public void LimpiarDonantes() {
+
+        txtID.setText("");
+        txtNombre.setText("");
+        txtApellidos.setText("");
+        txtDNI.setText("");
+        txtEmail.setText("");
+        txtDireccion.setText("");
+    }
+    
 }
