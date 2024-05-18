@@ -2,6 +2,8 @@ package Vista;
 
 import Modelo.Donante;
 import Modelo.DonanteDAO;
+import Modelo.Productos;
+import Modelo.ProductosDAO;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -10,6 +12,8 @@ public class Aplicacion extends javax.swing.JFrame {
 
     Donante donan = new Donante();
     DonanteDAO donan2 = new DonanteDAO();
+    Productos pro = new Productos();
+    ProductosDAO proDAO = new ProductosDAO();
     DefaultTableModel Modelo = new DefaultTableModel();
 
     public Aplicacion() {
@@ -17,6 +21,7 @@ public class Aplicacion extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
     }
 
+    //TABLA DONANTES
     public void tablaDonantes() {
         List<Donante> TablaDo = donan2.TablaDonantes();
         Modelo = (DefaultTableModel) tablaDonantes.getModel();
@@ -33,6 +38,24 @@ public class Aplicacion extends javax.swing.JFrame {
         tablaDonantes.setModel(Modelo);
     }
 
+    public void tablaProductos() {
+        List<Productos> TablaPro = proDAO.TablaProductos();
+        Modelo = (DefaultTableModel) tablaProductos.getModel();
+        Object[] ob = new Object[7];
+        for (int i = 0; i < TablaPro.size(); i++) {
+            ob[0] = TablaPro.get(i).getIDProductos();
+            ob[1] = TablaPro.get(i).getNombreProductos();
+            ob[2] = TablaPro.get(i).getTipodeProductos();
+            ob[3] = TablaPro.get(i).getDescripcionProductos();
+            ob[4] = TablaPro.get(i).getCantidadProductos();
+            ob[5] = TablaPro.get(i).getIDDonante();
+            ob[6] = TablaPro.get(i).getNombreONG2();
+            Modelo.addRow(ob);
+        }
+        tablaProductos.setModel(Modelo);
+    }
+
+    //LIMPIAR TABLAS
     public void LimpiarTabla() {
 
         for (int i = 0; i < Modelo.getRowCount(); i++) {
@@ -106,9 +129,9 @@ public class Aplicacion extends javax.swing.JFrame {
         btnPDFProductos = new javax.swing.JButton();
         jLabel20 = new javax.swing.JLabel();
         txtNombreONG2 = new javax.swing.JTextField();
-        comboBox = new javax.swing.JComboBox<>();
         jScrollPane9 = new javax.swing.JScrollPane();
         txtDescripcionProductos = new javax.swing.JTextArea();
+        JcomboBox = new javax.swing.JComboBox<>();
         jPanel8 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaProductos = new javax.swing.JTable();
@@ -423,6 +446,7 @@ public class Aplicacion extends javax.swing.JFrame {
         jLabel3.setText("ID");
 
         txtID.setEditable(false);
+        txtID.setBackground(new java.awt.Color(204, 204, 204));
         txtID.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -449,6 +473,8 @@ public class Aplicacion extends javax.swing.JFrame {
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setText("EMAIL");
 
+        txtEmail.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setText("DIRECCION");
@@ -457,6 +483,11 @@ public class Aplicacion extends javax.swing.JFrame {
 
         btnGuardarDonantes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/guardar.png"))); // NOI18N
         btnGuardarDonantes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnGuardarDonantes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarDonantesActionPerformed(evt);
+            }
+        });
 
         btnModificarDonantes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/modificar.png"))); // NOI18N
         btnModificarDonantes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -560,7 +591,15 @@ public class Aplicacion extends javax.swing.JFrame {
             new String [] {
                 "ID", "Nombre", "Apellidos", "DNI", "Email", "Direccion"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         tablaDonantes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tablaDonantesMouseClicked(evt);
@@ -655,6 +694,7 @@ public class Aplicacion extends javax.swing.JFrame {
         jLabel13.setText("ID");
 
         txtIDProductos.setEditable(false);
+        txtIDProductos.setBackground(new java.awt.Color(204, 204, 204));
         txtIDProductos.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -673,6 +713,8 @@ public class Aplicacion extends javax.swing.JFrame {
         jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel18.setText("CANTIDAD");
 
+        txtCantidadProductos.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
         jLabel19.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel19.setText("ID DONANTE");
@@ -680,10 +722,25 @@ public class Aplicacion extends javax.swing.JFrame {
         txtIDDonante.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         btnGuardarProductos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/guardar.png"))); // NOI18N
+        btnGuardarProductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarProductosActionPerformed(evt);
+            }
+        });
 
         btnModificarProductos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/modificar.png"))); // NOI18N
+        btnModificarProductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarProductosActionPerformed(evt);
+            }
+        });
 
         btnEliminarProductos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/eliminar.png"))); // NOI18N
+        btnEliminarProductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarProductosActionPerformed(evt);
+            }
+        });
 
         btnExcelProductos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/excel.png"))); // NOI18N
 
@@ -695,13 +752,12 @@ public class Aplicacion extends javax.swing.JFrame {
 
         txtNombreONG2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
-        comboBox.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        comboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona una opcion", "Alimentos", "Medicina", "Ropa", "Otros" }));
-        comboBox.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
         txtDescripcionProductos.setColumns(20);
         txtDescripcionProductos.setRows(5);
         jScrollPane9.setViewportView(txtDescripcionProductos);
+
+        JcomboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar", "Alimentos", "Medicina", "Ropa", "Otros" }));
+        JcomboBox.setBorder(javax.swing.BorderFactory.createTitledBorder("Tipo de Productos"));
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -710,14 +766,12 @@ public class Aplicacion extends javax.swing.JFrame {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(JcomboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtCantidadProductos, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtIDProductos)
                     .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtNombreProductos)
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGap(78, 78, 78)
-                        .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -734,8 +788,10 @@ public class Aplicacion extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnPDFProductos))
                     .addComponent(txtNombreONG2)
-                    .addComponent(comboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane9))
+                    .addComponent(jScrollPane9)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(78, 78, 78)
+                        .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
@@ -744,16 +800,16 @@ public class Aplicacion extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel13)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtIDProductos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtIDProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel14)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtNombreProductos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(comboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(JcomboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
                 .addComponent(jLabel15)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel17)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -765,11 +821,11 @@ public class Aplicacion extends javax.swing.JFrame {
                 .addComponent(jLabel19)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtIDDonante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel20)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtNombreONG2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnPDFProductos, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btnExcelProductos, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -789,6 +845,11 @@ public class Aplicacion extends javax.swing.JFrame {
                 "ID", "Nombre", "Tipo de Producto", "Descripcion", "Cantidad", "ID Donante", "ONG"
             }
         ));
+        tablaProductos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaProductosMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tablaProductos);
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
@@ -878,6 +939,7 @@ public class Aplicacion extends javax.swing.JFrame {
         jLabel23.setText("ID");
 
         txtIDONG.setEditable(false);
+        txtIDONG.setBackground(new java.awt.Color(204, 204, 204));
         txtIDONG.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jLabel24.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -1097,6 +1159,7 @@ public class Aplicacion extends javax.swing.JFrame {
         jLabel33.setText("ID");
 
         txtIDZona.setEditable(false);
+        txtIDZona.setBackground(new java.awt.Color(204, 204, 204));
         txtIDZona.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jLabel34.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -1297,6 +1360,7 @@ public class Aplicacion extends javax.swing.JFrame {
         jLabel43.setText("ID");
 
         txtIDUsuarios.setEditable(false);
+        txtIDUsuarios.setBackground(new java.awt.Color(204, 204, 204));
         txtIDUsuarios.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jLabel44.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -1509,6 +1573,7 @@ public class Aplicacion extends javax.swing.JFrame {
         jLabel53.setText("ID");
 
         txtIDSedes.setEditable(false);
+        txtIDSedes.setBackground(new java.awt.Color(204, 204, 204));
         txtIDSedes.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jLabel54.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -1709,6 +1774,7 @@ public class Aplicacion extends javax.swing.JFrame {
         jLabel63.setText("ID");
 
         txtIDLogin.setEditable(false);
+        txtIDLogin.setBackground(new java.awt.Color(204, 204, 204));
         txtIDLogin.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jLabel64.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -2043,6 +2109,9 @@ public class Aplicacion extends javax.swing.JFrame {
     //BOTON PRODUCTOS
     private void btnProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductosActionPerformed
         panelPrincipal.setSelectedComponent(panelProductos);
+        LimpiarTabla();
+        tablaProductos();
+        panelPrincipal.setSelectedIndex(1);
     }//GEN-LAST:event_btnProductosActionPerformed
 
     //BOTON ONG
@@ -2075,7 +2144,7 @@ public class Aplicacion extends javax.swing.JFrame {
         panelPrincipal.setSelectedComponent(panelDatos);
     }//GEN-LAST:event_btnDatosActionPerformed
 
-    //BOTON DE GUARDAR DONANTES
+    //BOTON DE GUARDAR ONG
     private void btnGuardarONGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarONGActionPerformed
         if (!"".equals(txtNombre.getText()) || !"".equals(txtApellidos.getText()) || !"".equals(txtDNI.getText()) || !"".equals(txtEmail.getText()) || !"".equals(txtDireccion.getText())) {
             donan.setNombre(txtNombre.getText());
@@ -2091,7 +2160,7 @@ public class Aplicacion extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Exiten campos Vacios");
         }
-    
+
     }//GEN-LAST:event_btnGuardarONGActionPerformed
 
     //SELECCIONAR FILA DE TABLA DONANTES
@@ -2140,6 +2209,93 @@ public class Aplicacion extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnEliminarDonantesActionPerformed
 
+    //BOTON GUARDAR PRODUCTOS
+    private void btnGuardarProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarProductosActionPerformed
+        if (!"".equals(txtNombreProductos.getText()) && !"".equals(JcomboBox.getSelectedItem()) && !"".equals(txtDescripcionProductos.getText()) && !"".equals(txtCantidadProductos.getText()) && !"".equals(txtIDDonante.getText()) && !"".equals(txtNombreONG2.getText())) {
+            pro.setNombreProductos(txtNombreProductos.getText());
+            pro.setTipodeProductos(JcomboBox.getSelectedItem().toString());
+            pro.setDescripcionProductos(txtDescripcionProductos.getText());
+            pro.setCantidadProductos(Integer.parseInt(txtCantidadProductos.getText()));
+            pro.setIDDonante(Integer.parseInt(txtIDDonante.getText()));
+            pro.setNombreONG2(txtNombreONG2.getText());
+            proDAO.RegistrarProductos(pro);
+            LimpiarTabla();
+            LimpiarProductos();
+            tablaProductos();
+            JOptionPane.showMessageDialog(null, "Producto Guardado");
+        } else {
+            JOptionPane.showMessageDialog(null, "Exiten campos Vacios");
+        }
+
+    }//GEN-LAST:event_btnGuardarProductosActionPerformed
+
+    //SELECCIONAR FILA DE TABLA PRODUCTOS
+    private void tablaProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProductosMouseClicked
+        int fila = tablaProductos.rowAtPoint(evt.getPoint());
+        txtIDProductos.setText(tablaProductos.getValueAt(fila, 0).toString());
+        txtNombreProductos.setText(tablaProductos.getValueAt(fila, 1).toString());
+        JcomboBox.setSelectedItem(tablaProductos.getValueAt(fila, 2).toString());
+        txtDescripcionProductos.setText(tablaProductos.getValueAt(fila, 3).toString());
+        txtCantidadProductos.setText(tablaProductos.getValueAt(fila, 4).toString());
+        txtIDDonante.setText(tablaProductos.getValueAt(fila, 5).toString());
+        txtNombreONG2.setText(tablaProductos.getValueAt(fila, 6).toString());
+    }//GEN-LAST:event_tablaProductosMouseClicked
+
+    //BOTON GUARDAR DONANTES
+    private void btnGuardarDonantesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarDonantesActionPerformed
+        if (!"".equals(txtNombre.getText()) || !"".equals(txtApellidos.getText()) || !"".equals(txtDNI.getText()) || !"".equals(txtEmail.getText()) || !"".equals(txtDireccion.getText())) {
+            donan.setNombre(txtNombre.getText());
+            donan.setApellidos(txtApellidos.getText());
+            donan.setDNI(txtDNI.getText());
+            donan.setEmail(txtEmail.getText());
+            donan.setDireccion(txtDireccion.getText());
+            donan2.RegistrarDonante(donan);
+            LimpiarTabla();
+            LimpiarDonantes();
+            tablaDonantes();
+            JOptionPane.showMessageDialog(null, "Donante Resgistrado");
+        } else {
+            JOptionPane.showMessageDialog(null, "Exiten campos Vacios");
+        }
+    }//GEN-LAST:event_btnGuardarDonantesActionPerformed
+
+    //BOTON MODIFICAR PRODUCTOS
+    private void btnModificarProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarProductosActionPerformed
+        if ("".equals(txtIDProductos.getText())) {
+            JOptionPane.showMessageDialog(null, "Selecciona una fila");
+        } else {
+            if (!"".equals(txtNombreProductos.getText()) && !"".equals(JcomboBox.getSelectedItem()) && !"".equals(txtDescripcionProductos.getText()) && !"".equals(txtCantidadProductos.getText()) && !"".equals(txtIDDonante.getText()) && !"".equals(txtNombreONG2.getText())) {
+                pro.setNombreProductos(txtNombreProductos.getText());
+                pro.setTipodeProductos(JcomboBox.getSelectedItem().toString());
+                pro.setDescripcionProductos(txtDescripcionProductos.getText());
+                pro.setCantidadProductos(Integer.parseInt(txtCantidadProductos.getText()));
+                pro.setIDDonante(Integer.parseInt(txtIDDonante.getText()));
+                pro.setNombreONG2(txtNombreONG2.getText());
+                proDAO.RegistrarProductos(pro);
+                LimpiarTabla();
+                LimpiarProductos();
+                tablaProductos();
+                JOptionPane.showMessageDialog(null, "Producto Modificado");
+            } else {
+                JOptionPane.showMessageDialog(null, "EXISTEN CAMPOS VACIOS");
+            }
+        }
+    }//GEN-LAST:event_btnModificarProductosActionPerformed
+
+    //BOTON ELIMINAR PRODUCTOS
+    private void btnEliminarProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarProductosActionPerformed
+        if (!"".equals(txtIDProductos.getText())) {
+            int pregunta = JOptionPane.showConfirmDialog(null, "ELIMINAR REGISTRO");
+            if (pregunta == 0) {
+                int IDProductos = Integer.parseInt(txtIDProductos.getText());
+                proDAO.EliminarProductos(IDProductos);
+                LimpiarTabla();
+                LimpiarProductos();
+                tablaProductos();
+            }
+        }
+    }//GEN-LAST:event_btnEliminarProductosActionPerformed
+
     public static void main(String args[]) {
 
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -2172,6 +2328,7 @@ public class Aplicacion extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> JcomboBox;
     private javax.swing.JTextField Password;
     private javax.swing.JButton btnDatos;
     private javax.swing.JButton btnDonantes;
@@ -2216,7 +2373,6 @@ public class Aplicacion extends javax.swing.JFrame {
     private javax.swing.JButton btnSedes;
     private javax.swing.JButton btnUsuarios;
     private javax.swing.JButton btnZonaAfectada;
-    private javax.swing.JComboBox<String> comboBox;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -2388,7 +2544,7 @@ public class Aplicacion extends javax.swing.JFrame {
     private javax.swing.JTextField txtTelefonoONG;
     // End of variables declaration//GEN-END:variables
 
-public void LimpiarDonantes() {
+    public void LimpiarDonantes() {
 
         txtID.setText("");
         txtNombre.setText("");
@@ -2397,5 +2553,16 @@ public void LimpiarDonantes() {
         txtEmail.setText("");
         txtDireccion.setText("");
     }
-    
+
+    public void LimpiarProductos() {
+
+        txtIDProductos.setText("");
+        txtNombreProductos.setText("");
+        JcomboBox.setSelectedIndex(0);
+        txtDescripcionProductos.setText("");
+        txtCantidadProductos.setText("");
+        txtIDDonante.setText("");
+        txtNombreONG2.setText("");
+    }
+
 }
