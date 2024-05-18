@@ -6,6 +6,10 @@ import Modelo.Productos;
 import Modelo.ProductosDAO;
 import Modelo.ONG;
 import Modelo.ONGDAO;
+import Modelo.ZonaAfectada;
+import Modelo.ZonaAfectadaDAO;
+import Modelo.Usuarios;
+import Modelo.UsuariosDAO;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -18,6 +22,10 @@ public class Aplicacion extends javax.swing.JFrame {
     ProductosDAO proDAO = new ProductosDAO();
     ONG ONG = new ONG();
     ONGDAO ONGDAO = new ONGDAO();
+    ZonaAfectada Zona = new ZonaAfectada();
+    ZonaAfectadaDAO ZonaDAO = new ZonaAfectadaDAO();
+    Usuarios user = new Usuarios();
+    UsuariosDAO userDAO = UsuariosDAO();
     DefaultTableModel Modelo = new DefaultTableModel();
 
     public Aplicacion() {
@@ -42,6 +50,7 @@ public class Aplicacion extends javax.swing.JFrame {
         tablaDonantes.setModel(Modelo);
     }
 
+    //TABLA PRODUCTOS
     public void tablaProductos() {
         List<Productos> TablaPro = proDAO.TablaProductos();
         Modelo = (DefaultTableModel) tablaProductos.getModel();
@@ -59,6 +68,7 @@ public class Aplicacion extends javax.swing.JFrame {
         tablaProductos.setModel(Modelo);
     }
     
+    //TABLA ONG
     public void tablaONG() {
         List<ONG> TablaONG = ONGDAO.TablaONG();
         Modelo = (DefaultTableModel) tablaONG.getModel();
@@ -74,7 +84,39 @@ public class Aplicacion extends javax.swing.JFrame {
         }
         tablaDonantes.setModel(Modelo);
     }
+    
+    //TABLA ZONA AFECTADA
+    public void tablaZona() {
+        List<ZonaAfectada> TablaZo = ZonaDAO.TablaZona();
+        Modelo = (DefaultTableModel) tablaZona.getModel();
+        Object[] ob = new Object[5];
+        for (int i = 0; i < TablaZo.size(); i++) {
+            ob[0] = TablaZo.get(i).getIDZona();
+            ob[1] = TablaZo.get(i).getNombreZona();
+            ob[2] = TablaZo.get(i).getPaisZona();
+            ob[3] = TablaZo.get(i).getCiudadZona();
+            ob[4] = TablaZo.get(i).getNombreONG3();
+            Modelo.addRow(ob);
+        }
+        tablaZona.setModel(Modelo);
+    }
 
+    public void tablaUsuarios() {
+        List<Usuarios> Tablauser = userDAO.TablaUsuarios();
+        Modelo = (DefaultTableModel) tablaUsuarios.getModel();
+        Object[] ob = new Object[6];
+        for (int i = 0; i < Tablauser.size(); i++) {
+            ob[0] = Tablauser.get(i).getIDUsuarios();
+            ob[1] = Tablauser.get(i).getNombreUsuarios();
+            ob[2] = Tablauser.get(i).getApellidosUsuarios();
+            ob[3] = Tablauser.get(i).getDNIUsuarios();
+            ob[4] = Tablauser.get(i).getEmailUsuarios();
+            ob[5] = Tablauser.get(i).getDireccionUsuarios();
+            Modelo.addRow(ob);
+        }
+        tablaUsuarios.setModel(Modelo);
+    }
+    
     //LIMPIAR TABLAS
     public void LimpiarTabla() {
 
@@ -1221,11 +1263,28 @@ public class Aplicacion extends javax.swing.JFrame {
         jLabel38.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel38.setText("NOMBRE ONG");
 
+        txtNombreONG3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
         btnGuardarZona.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/guardar.png"))); // NOI18N
+        btnGuardarZona.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarZonaActionPerformed(evt);
+            }
+        });
 
         btnModificarZona.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/modificar.png"))); // NOI18N
+        btnModificarZona.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarZonaActionPerformed(evt);
+            }
+        });
 
         btnEliminarZona.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/eliminar.png"))); // NOI18N
+        btnEliminarZona.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarZonaActionPerformed(evt);
+            }
+        });
 
         btnExcelZona.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/excel.png"))); // NOI18N
 
@@ -1300,12 +1359,17 @@ public class Aplicacion extends javax.swing.JFrame {
 
         tablaZona.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "ID", "Nombre", "Pais", "Ciudad", "ONG"
             }
         ));
+        tablaZona.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaZonaMouseClicked(evt);
+            }
+        });
         jScrollPane4.setViewportView(tablaZona);
 
         javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
@@ -1429,10 +1493,25 @@ public class Aplicacion extends javax.swing.JFrame {
         txtDireccionUsuarios.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         btnGuardarUsuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/guardar.png"))); // NOI18N
+        btnGuardarUsuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarUsuariosActionPerformed(evt);
+            }
+        });
 
         btnModificarUsuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/modificar.png"))); // NOI18N
+        btnModificarUsuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarUsuariosActionPerformed(evt);
+            }
+        });
 
         btnEliminarUsuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/eliminar.png"))); // NOI18N
+        btnEliminarUsuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarUsuariosActionPerformed(evt);
+            }
+        });
 
         btnExcelUsuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/excel.png"))); // NOI18N
 
@@ -1519,6 +1598,11 @@ public class Aplicacion extends javax.swing.JFrame {
                 "ID", "Nombre", "Apellidos", "DNI", "Email", "Direccion"
             }
         ));
+        tablaUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaUsuariosMouseClicked(evt);
+            }
+        });
         jScrollPane5.setViewportView(tablaUsuarios);
 
         javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
@@ -2160,11 +2244,17 @@ public class Aplicacion extends javax.swing.JFrame {
     //BOTON ZONA AFECTADA
     private void btnZonaAfectadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZonaAfectadaActionPerformed
         panelPrincipal.setSelectedComponent(panelZonaAfectada);
+        LimpiarTabla();
+        tablaZona();
+        panelPrincipal.setSelectedIndex(3);
     }//GEN-LAST:event_btnZonaAfectadaActionPerformed
 
     //BOTON USUARIOS
     private void btnUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuariosActionPerformed
         panelPrincipal.setSelectedComponent(panelUsuarios);
+        LimpiarTabla();
+        tablaUsuarios();
+        panelPrincipal.setSelectedIndex(4);
     }//GEN-LAST:event_btnUsuariosActionPerformed
 
     //BOTON SEDES
@@ -2381,6 +2471,133 @@ public class Aplicacion extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnEliminarONGActionPerformed
+
+    //BOTON GUARDAR ZONA AFECTADA
+    private void btnGuardarZonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarZonaActionPerformed
+        if (!"".equals(txtNombreZona.getText()) || !"".equals(txtPaisZona.getText()) || !"".equals(txtCiudadZona.getText()) || !"".equals(txtNombreONG3.getText())) {
+            Zona.setNombreZona(txtNombreZona.getText());
+            Zona.setPaisZona(txtPaisZona.getText());
+            Zona.setCiudadZona(txtCiudadZona.getText());
+            Zona.setNombreONG3(txtNombreONG3.getText());
+            ZonaDAO.RegistrarZonaAfectada(Zona);
+            LimpiarTabla();
+            LimpiarZona();
+            tablaZona();
+            JOptionPane.showMessageDialog(null, "ZONA AFECTADA REGISTRADA");
+        } else {
+            JOptionPane.showMessageDialog(null, "EXISTEN CAMPOS VACIOS");
+        }
+    }//GEN-LAST:event_btnGuardarZonaActionPerformed
+
+    ////SELECCIONAR FILA DE TABLA ZONA AFECTADA
+    private void tablaZonaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaZonaMouseClicked
+        int fila = tablaZona.rowAtPoint(evt.getPoint());
+        txtIDZona.setText(tablaZona.getValueAt(fila, 0).toString());
+        txtNombreZona.setText(tablaZona.getValueAt(fila, 1).toString());
+        txtPaisZona.setText(tablaZona.getValueAt(fila, 2).toString());
+        txtCiudadZona.setText(tablaZona.getValueAt(fila, 3).toString());
+        txtNombreONG3.setText(tablaZona.getValueAt(fila, 4).toString());
+    }//GEN-LAST:event_tablaZonaMouseClicked
+
+    //BOTON MODIFICAR  ZONA AFECTADA
+    private void btnModificarZonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarZonaActionPerformed
+        if ("".equals(txtIDZona.getText())) {
+            JOptionPane.showMessageDialog(null, "Selecciona una fila");
+        } else {
+            if (!"".equals(txtNombreZona.getText()) && !"".equals(txtPaisZona.getText()) && !"".equals(txtCiudadZona.getText()) && !"".equals(txtNombreONG3.getText())) {
+                Zona.setNombreZona(txtNombreZona.getText());
+                Zona.setPaisZona(txtPaisZona.getText());
+                Zona.setCiudadZona(txtCiudadZona.getText());
+                Zona.setNombreONG3(txtNombreONG3.getText());
+                ZonaDAO.RegistrarZonaAfectada(Zona);
+                LimpiarTabla();
+                LimpiarZona();
+                tablaZona();
+                JOptionPane.showMessageDialog(null, "ZONA AFECTADA MODIFICADA");
+            } else {
+                JOptionPane.showMessageDialog(null, "EXISTEN CAMPOS VACIOS");
+            }
+        }
+    }//GEN-LAST:event_btnModificarZonaActionPerformed
+
+    //BOTON ELIMINAR ZONA AFECTADA
+    private void btnEliminarZonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarZonaActionPerformed
+        if (!"".equals(txtIDZona.getText())) {
+            int pregunta = JOptionPane.showConfirmDialog(null, "ELIMINAR REGISTRO");
+            if (pregunta == 0) {
+                int IDZona = Integer.parseInt(txtIDZona.getText());
+                ZonaDAO.EliminarZona(IDZona);
+                LimpiarTabla();
+                LimpiarZona();
+                tablaZona();
+            }
+        }
+    }//GEN-LAST:event_btnEliminarZonaActionPerformed
+
+    //BOTON GUARDAR USUARIOS
+    private void btnGuardarUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarUsuariosActionPerformed
+        if (!"".equals(txtNombreUsuarios.getText()) || !"".equals(txtApellidosUsuarios.getText()) || !"".equals(txtDNIUsuarios.getText()) || !"".equals(txtEmailUsuarios.getText()) || !"".equals(txtDireccionUsuarios.getText())) {
+            user.setNombreUsuarios(txtNombreUsuarios.getText());
+            user.setApellidosUsuarios(txtApellidosUsuarios.getText());
+            user.setDNIUsuarios(txtDNIUsuarios.getText());
+            user.setEmailUsuarios(txtEmailUsuarios.getText());
+            user.setDireccionUsuarios(txtDireccionUsuarios.getText());
+            userDAO.RegistrarUsuarios(user);
+            LimpiarTabla();
+            LimpiarUsuarios();
+            tablaUsuarios();
+            JOptionPane.showMessageDialog(null, "USUARIO REGISTRADO");
+        } else {
+            JOptionPane.showMessageDialog(null, "EXISTEN CAMPOS VACIOS");
+        }
+    }//GEN-LAST:event_btnGuardarUsuariosActionPerformed
+
+    //SELECCIONAR FILA DE TABLA USUARIOS
+    private void tablaUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaUsuariosMouseClicked
+        int fila = tablaUsuarios.rowAtPoint(evt.getPoint());
+        txtIDUsuarios.setText(tablaUsuarios.getValueAt(fila, 0).toString());
+        txtNombreUsuarios.setText(tablaUsuarios.getValueAt(fila, 1).toString());
+        txtApellidosUsuarios.setText(tablaUsuarios.getValueAt(fila, 2).toString());
+        txtDNIUsuarios.setText(tablaUsuarios.getValueAt(fila, 3).toString());
+        txtEmailUsuarios.setText(tablaUsuarios.getValueAt(fila, 4).toString());
+        txtDireccionUsuarios.setText(tablaUsuarios.getValueAt(fila, 5).toString());
+    }//GEN-LAST:event_tablaUsuariosMouseClicked
+
+    //BOTON MODIFICAR USUARIOS
+    private void btnModificarUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarUsuariosActionPerformed
+        if ("".equals(txtIDUsuarios.getText())) {
+            JOptionPane.showMessageDialog(null, "Selecciona una fila");
+        } else {
+            if (!"".equals(txtNombreUsuarios.getText()) && !"".equals(txtApellidosUsuarios.getText()) && !"".equals(txtDNIUsuarios.getText()) && !"".equals(txtEmailUsuarios.getText()) && !"".equals(txtDireccionUsuarios.getText())) {
+                user.setNombreUsuarios(txtNombreUsuarios.getText());
+                user.setApellidosUsuarios(txtApellidosUsuarios.getText());
+                user.setDNIUsuarios(txtDNIUsuarios.getText());
+                user.setEmailUsuarios(txtEmailUsuarios.getText());
+                user.setDireccionUsuarios(txtDireccionUsuarios.getText());
+                userDAO.RegistrarUsuarios(user);
+                LimpiarTabla();
+                LimpiarUsuarios();
+                tablaUsuarios();
+                JOptionPane.showMessageDialog(null, "USUARIO MODIFICADO");
+            } else {
+                JOptionPane.showMessageDialog(null, "EXISTEN CAMPOS VACIOS");
+            }
+        }
+    }//GEN-LAST:event_btnModificarUsuariosActionPerformed
+
+    //BOTON ELIMINAR USUARIOS
+    private void btnEliminarUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarUsuariosActionPerformed
+        if (!"".equals(txtIDUsuarios.getText())) {
+            int pregunta = JOptionPane.showConfirmDialog(null, "ELIMINAR REGISTRO");
+            if (pregunta == 0) {
+                int IDUsuarios = Integer.parseInt(txtIDUsuarios.getText());
+                userDAO.EliminarUsuarios(IDUsuarios);
+                LimpiarTabla();
+                LimpiarUsuarios();
+                tablaUsuarios();
+            }
+        }
+    }//GEN-LAST:event_btnEliminarUsuariosActionPerformed
 
     public static void main(String args[]) {
 
@@ -2661,4 +2878,23 @@ public class Aplicacion extends javax.swing.JFrame {
         txtEmailONG.setText("");
     }
 
+    public void LimpiarZona() {
+
+        txtIDZona.setText("");
+        txtNombreZona.setText("");
+        txtPaisZona.setText("");
+        txtCiudadZona.setText("");
+        txtNombreONG3.setText("");
+    }
+    
+    public void LimpiarUsuarios() {
+
+        txtIDUsuarios.setText("");
+        txtNombreUsuarios.setText("");
+        txtApellidosUsuarios.setText("");
+        txtDNIUsuarios.setText("");
+        txtEmailUsuarios.setText("");
+        txtDireccionUsuarios.setText("");
+    }
+    
 }
