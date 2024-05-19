@@ -121,7 +121,7 @@
                               <Component id="jLabel3" alignment="0" max="32767" attributes="0"/>
                               <Component id="txtEmailLogin" alignment="0" max="32767" attributes="0"/>
                               <Component id="jLabel4" alignment="0" max="32767" attributes="0"/>
-                              <Component id="pass" alignment="0" max="32767" attributes="0"/>
+                              <Component id="txtpass" alignment="0" max="32767" attributes="0"/>
                               <Component id="jLabel6" alignment="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
@@ -142,7 +142,7 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="pass" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtpass" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jButton1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -191,7 +191,7 @@
             <Property name="text" type="java.lang.String" value="CONSTRASE&#xd1;A"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JPasswordField" name="pass">
+        <Component class="javax.swing.JPasswordField" name="txtpass">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">

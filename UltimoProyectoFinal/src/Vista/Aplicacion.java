@@ -1,5 +1,8 @@
 package Vista;
 
+
+import Modelo.login;
+import Modelo.LoginDAO;
 import Modelo.Donante;
 import Modelo.DonanteDAO;
 import Modelo.LoginDAO2;
@@ -15,6 +18,9 @@ import Modelo.Usuarios;
 import Modelo.UsuariosDAO;
 import Modelo.ZonaAfectada;
 import Modelo.ZonaAfectadaDAO;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -22,6 +28,8 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 public class Aplicacion extends javax.swing.JFrame {
+    
+    
 
     Donante donan = new Donante();
     DonanteDAO donan2 = new DonanteDAO();
@@ -48,6 +56,8 @@ public class Aplicacion extends javax.swing.JFrame {
         panelPrincipal.setVisible(false);
 
     }
+    
+    
 
     //TABLA DONANTES
     public void tablaDonantes() {
@@ -3068,4 +3078,5 @@ public class Aplicacion extends javax.swing.JFrame {
         txtEmailLogin.setText("");
         Password.setText("");
     }
+    
 }

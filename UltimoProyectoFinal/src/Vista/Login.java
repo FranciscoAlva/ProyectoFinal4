@@ -11,13 +11,13 @@ public class Login extends javax.swing.JFrame {
     
     public Login() {
         initComponents();
-        this.setLocationRelativeTo(null);
+        this.setLocationRelativeTo(null);        
     }
     
     //METODO VALIDAR
     public void validar(){
         String EmailLogin = txtEmailLogin.getText();
-        String Password = String.valueOf(pass.getPassword());
+        String Password = String.valueOf(txtpass.getPassword());
         if(!"".equals(EmailLogin) || !"".equals(Password)){
             lg = login.log(EmailLogin, Password);
             if (lg.getEmailLogin() != null && lg.getPassword() != null){
@@ -42,7 +42,7 @@ public class Login extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         txtEmailLogin = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        pass = new javax.swing.JPasswordField();
+        txtpass = new javax.swing.JPasswordField();
         jButton1 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -85,8 +85,8 @@ public class Login extends javax.swing.JFrame {
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("CONSTRASEÑA");
 
-        pass.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        pass.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        txtpass.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtpass.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jButton1.setText("INICIAR");
         jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -121,7 +121,7 @@ public class Login extends javax.swing.JFrame {
                             .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtEmailLogin)
                             .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(pass)
+                            .addComponent(txtpass)
                             .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
@@ -137,7 +137,7 @@ public class Login extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtpass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton1)
                 .addGap(18, 18, 18)
@@ -217,7 +217,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPasswordField pass;
     private javax.swing.JTextField txtEmailLogin;
+    private javax.swing.JPasswordField txtpass;
     // End of variables declaration//GEN-END:variables
 }
