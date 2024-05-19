@@ -2357,12 +2357,12 @@
                               <Component id="jLabel53" alignment="0" max="32767" attributes="0"/>
                               <Component id="txtIDSedes" alignment="0" max="32767" attributes="0"/>
                               <Component id="jLabel54" alignment="0" max="32767" attributes="0"/>
-                              <Component id="txtNombreSedes" alignment="0" max="32767" attributes="0"/>
+                              <Component id="txtDireccionSedes" alignment="0" max="32767" attributes="0"/>
                               <Component id="jLabel55" alignment="0" max="32767" attributes="0"/>
                               <Component id="jLabel56" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jTextField44" alignment="0" max="32767" attributes="0"/>
+                              <Component id="txtEmailSedes" alignment="0" max="32767" attributes="0"/>
                               <Component id="jLabel57" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jTextField45" alignment="0" max="32767" attributes="0"/>
+                              <Component id="txtTelefonoSedes" alignment="0" max="32767" attributes="0"/>
                               <Component id="jLabel58" alignment="0" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="btnGuardarSedes" min="-2" max="-2" attributes="0"/>
@@ -2390,17 +2390,17 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jLabel54" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="txtNombreSedes" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtDireccionSedes" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jLabel55" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jLabel56" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jTextField44" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtEmailSedes" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jLabel57" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jTextField45" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtTelefonoSedes" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jLabel58" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
@@ -2446,7 +2446,7 @@
                     <Property name="text" type="java.lang.String" value="DIRECCION"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="txtNombreSedes">
+                <Component class="javax.swing.JTextField" name="txtDireccionSedes">
                   <Properties>
                     <Property name="horizontalAlignment" type="int" value="0"/>
                   </Properties>
@@ -2465,7 +2465,7 @@
                     <Property name="text" type="java.lang.String" value="EMAIL"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="jTextField44">
+                <Component class="javax.swing.JTextField" name="txtEmailSedes">
                   <Properties>
                     <Property name="horizontalAlignment" type="int" value="0"/>
                   </Properties>
@@ -2479,7 +2479,7 @@
                     <Property name="text" type="java.lang.String" value="TELEFONO"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="jTextField45">
+                <Component class="javax.swing.JTextField" name="txtTelefonoSedes">
                   <Properties>
                     <Property name="horizontalAlignment" type="int" value="0"/>
                   </Properties>
@@ -2494,6 +2494,9 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="txtResponsableSedes">
+                  <Properties>
+                    <Property name="horizontalAlignment" type="int" value="0"/>
+                  </Properties>
                 </Component>
                 <Component class="javax.swing.JButton" name="btnGuardarSedes">
                   <Properties>
@@ -2501,6 +2504,9 @@
                       <Image iconType="3" name="/Imagenes/guardar.png"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGuardarSedesActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="btnModificarSedes">
                   <Properties>
@@ -2508,6 +2514,9 @@
                       <Image iconType="3" name="/Imagenes/modificar.png"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnModificarSedesActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="btnEliminarSedes">
                   <Properties>
@@ -2515,6 +2524,9 @@
                       <Image iconType="3" name="/Imagenes/eliminar.png"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEliminarSedesActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="btnExcelSedes">
                   <Properties>
@@ -2581,6 +2593,9 @@
                           </Table>
                         </Property>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tablaSedesMouseClicked"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -2838,6 +2853,9 @@
                       <Image iconType="3" name="/Imagenes/guardar.png"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGuardarLoginActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="btnModificarLogin">
                   <Properties>
@@ -2845,6 +2863,9 @@
                       <Image iconType="3" name="/Imagenes/modificar.png"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnModificarLoginActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="btnEliminarLogin">
                   <Properties>
@@ -2852,6 +2873,9 @@
                       <Image iconType="3" name="/Imagenes/eliminar.png"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEliminarLoginActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="btnExcelLogin">
                   <Properties>
@@ -2917,6 +2941,9 @@
                           </Table>
                         </Property>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tablaLoginMouseClicked"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>

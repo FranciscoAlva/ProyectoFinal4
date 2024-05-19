@@ -8,24 +8,22 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import java.sql.ResultSet;
 
-public class UsuariosDAO {
+public class LoginDAO2 {
 
     Conexion cn = new Conexion();
     Connection con;
     PreparedStatement ps;
     ResultSet rs;
 
-    public boolean RegistrarUsuarios(Usuarios user){
+    public boolean RegistrarLogin(LoginR lg){
     
-        String sql = "INSERT INTO usuarios (NombreUsuarios,ApellidosUsuarios,DNIUsuarios,EmailUsuarios,DireccionUsuarios) VALUES(?,?,?,?,?)";
+        String sql = "INSERT INTO login (NombreLogin,EmailLogin,Password) VALUES(?,?,?)";
         try{
             con = cn.getConnection();
             ps = con.prepareStatement(sql);
-            ps.setString(1,user.getNombreUsuarios());
-            ps.setString(2,user.getApellidosUsuarios());
-            ps.setString(3,user.getDNIUsuarios());
-            ps.setString(4,user.getEmailUsuarios());
-            ps.setString(5,user.getDireccionUsuarios());
+            ps.setString(1,lg.getNombreLogin());
+            ps.setString(2,lg.getEmailLogin());
+            ps.setString(3,lg.getPassword());
             ps.execute();
             return true;
         }catch (SQLException e){
@@ -40,35 +38,33 @@ public class UsuariosDAO {
         }    
     }   
     
-    public List TablaUsuarios(){
+    public List TablaLogin(){
     
-        List<Usuarios> Tablauser = new ArrayList();
-        String sql = "SELECT * FROM usuarios";
+        List<LoginR> Tablalg = new ArrayList();
+        String sql = "SELECT * FROM login";
         try{
             con = cn.getConnection();
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
             while(rs.next()){
-                Usuarios user = new Usuarios();
-                user.setIDUsuarios(rs.getInt("IDUsuarios"));
-                user.setNombreUsuarios(rs.getString("NombreUsuarios"));
-                user.setApellidosUsuarios(rs.getString("ApellidosUsuarios"));
-                user.setDNIUsuarios(rs.getString("DNIUsuarios"));
-                user.setEmailUsuarios(rs.getString("EmailUsuarios"));
-                user.setDireccionUsuarios(rs.getString("DireccionUsuarios"));
-                Tablauser.add(user);
+                LoginR lg = new LoginR();
+                lg.setIDLogin(rs.getInt("IDLogin"));
+                lg.setNombreLogin(rs.getString("NombreLogin"));
+                lg.setEmailLogin(rs.getString("EmailLogin"));
+                lg.setPassword(rs.getString("Password"));
+                Tablalg.add(lg);
             }
         }catch (SQLException e){
             System.out.println(e.toString());
         }
-        return Tablauser;        
+        return Tablalg;        
     }
     
-    public boolean EliminarUsuarios(int IDUsuarios){
-        String sql = "DELETE FROM usuarios WHERE IDUsuarios = ?";
+    public boolean EliminarLogin(int IDLogin){
+        String sql = "DELETE FROM login WHERE IDLogin = ?";
         try{
             ps = con.prepareStatement(sql);
-            ps.setInt(1,IDUsuarios);
+            ps.setInt(1,IDLogin);
             ps.execute();
             return true;
         }catch(SQLException e){
@@ -83,15 +79,13 @@ public class UsuariosDAO {
         }
     }
     
-    public boolean ModificarUsuarios(Usuarios user){
-        String sql = "UPDATE usuarios SET NombreUsuarios=?, ApellidosUsuarios=?, DNIUsuarios=?, EmailUsuarios=?, DireccionUsuarios=? WHERE IDUsuarios=?";
+    public boolean ModificarLogin(LoginR lg){
+        String sql = "UPDATE login SET NombreLogin=?, EmailLogin=?, Password=? WHERE IDLogin=?";
         try{
             ps = con.prepareStatement(sql);
-            ps.setString(1, user.getNombreUsuarios());
-            ps.setString(2, user.getApellidosUsuarios());
-            ps.setString(3, user.getDNIUsuarios());
-            ps.setString(4, user.getEmailUsuarios());
-            ps.setString(5, user.getDireccionUsuarios());
+            ps.setString(1, lg.getNombreLogin());
+            ps.setString(2, lg.getEmailLogin());
+            ps.setString(3, lg.getPassword());
             ps.execute();
             return true;
         }catch(SQLException e){
@@ -105,5 +99,4 @@ public class UsuariosDAO {
             }
         }
     }
-    
 }

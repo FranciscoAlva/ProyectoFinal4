@@ -2,7 +2,7 @@ package Modelo;
 
 
 public class Usuarios {
-    
+
     private int IDUsuarios;
     private String NombreUsuarios;
     private String ApellidosUsuarios;
@@ -71,5 +71,4 @@ public class Usuarios {
     }
     
     
-
 }

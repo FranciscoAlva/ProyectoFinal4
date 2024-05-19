@@ -2,14 +2,18 @@ package Vista;
 
 import Modelo.Donante;
 import Modelo.DonanteDAO;
+import Modelo.LoginDAO2;
+import Modelo.LoginR;
 import Modelo.Productos;
 import Modelo.ProductosDAO;
 import Modelo.ONG;
 import Modelo.ONGDAO;
-import Modelo.ZonaAfectada;
-import Modelo.ZonaAfectadaDAO;
+import Modelo.Sedes;
+import Modelo.SedesDAO;
 import Modelo.Usuarios;
 import Modelo.UsuariosDAO;
+import Modelo.ZonaAfectada;
+import Modelo.ZonaAfectadaDAO;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -24,8 +28,12 @@ public class Aplicacion extends javax.swing.JFrame {
     ONGDAO ONGDAO = new ONGDAO();
     ZonaAfectada Zona = new ZonaAfectada();
     ZonaAfectadaDAO ZonaDAO = new ZonaAfectadaDAO();
+    Sedes SD = new Sedes();
+    SedesDAO SDDAO = new SedesDAO();
+    LoginR LG = new LoginR();
+    LoginDAO2 LGDAO = new LoginDAO2();
     Usuarios user = new Usuarios();
-    UsuariosDAO userDAO = UsuariosDAO();
+    UsuariosDAO userDAO = new UsuariosDAO();
     DefaultTableModel Modelo = new DefaultTableModel();
 
     public Aplicacion() {
@@ -101,6 +109,23 @@ public class Aplicacion extends javax.swing.JFrame {
         tablaZona.setModel(Modelo);
     }
 
+    //TABLA SEDES
+    public void tablaSedes() {
+        List<Sedes> Tablasd = SDDAO.TablaSedes();
+        Modelo = (DefaultTableModel) tablaSedes.getModel();
+        Object[] ob = new Object[5];
+        for (int i = 0; i < Tablasd.size(); i++) {
+            ob[0] = Tablasd.get(i).getIDSedes();
+            ob[1] = Tablasd.get(i).getDireccionSedes();
+            ob[2] = Tablasd.get(i).getEmailSedes();
+            ob[3] = Tablasd.get(i).getTelefonoSedes();
+            ob[4] = Tablasd.get(i).getResponsableSedes();
+            Modelo.addRow(ob);
+        }
+        tablaSedes.setModel(Modelo);
+    }
+    
+    //TABLA USUARIOS
     public void tablaUsuarios() {
         List<Usuarios> Tablauser = userDAO.TablaUsuarios();
         Modelo = (DefaultTableModel) tablaUsuarios.getModel();
@@ -115,6 +140,21 @@ public class Aplicacion extends javax.swing.JFrame {
             Modelo.addRow(ob);
         }
         tablaUsuarios.setModel(Modelo);
+    }
+    
+    //TABLA LOGIN
+    public void tablaLogin() {
+        List<LoginR> Tablalg = LGDAO.TablaLogin();
+        Modelo = (DefaultTableModel) tablaLogin.getModel();
+        Object[] ob = new Object[4];
+        for (int i = 0; i < Tablalg.size(); i++) {
+            ob[0] = Tablalg.get(i).getIDLogin();
+            ob[1] = Tablalg.get(i).getNombreLogin();
+            ob[2] = Tablalg.get(i).getEmailLogin();
+            ob[3] = Tablalg.get(i).getPassword();
+            Modelo.addRow(ob);
+        }
+        tablaLogin.setModel(Modelo);
     }
     
     //LIMPIAR TABLAS
@@ -285,12 +325,12 @@ public class Aplicacion extends javax.swing.JFrame {
         jLabel53 = new javax.swing.JLabel();
         txtIDSedes = new javax.swing.JTextField();
         jLabel54 = new javax.swing.JLabel();
-        txtNombreSedes = new javax.swing.JTextField();
+        txtDireccionSedes = new javax.swing.JTextField();
         jLabel55 = new javax.swing.JLabel();
         jLabel56 = new javax.swing.JLabel();
-        jTextField44 = new javax.swing.JTextField();
+        txtEmailSedes = new javax.swing.JTextField();
         jLabel57 = new javax.swing.JLabel();
-        jTextField45 = new javax.swing.JTextField();
+        txtTelefonoSedes = new javax.swing.JTextField();
         jLabel58 = new javax.swing.JLabel();
         txtResponsableSedes = new javax.swing.JTextField();
         btnGuardarSedes = new javax.swing.JButton();
@@ -1699,7 +1739,7 @@ public class Aplicacion extends javax.swing.JFrame {
         jLabel54.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel54.setText("DIRECCION");
 
-        txtNombreSedes.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtDireccionSedes.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jLabel55.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
@@ -1707,23 +1747,40 @@ public class Aplicacion extends javax.swing.JFrame {
         jLabel56.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel56.setText("EMAIL");
 
-        jTextField44.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtEmailSedes.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jLabel57.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel57.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel57.setText("TELEFONO");
 
-        jTextField45.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtTelefonoSedes.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jLabel58.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel58.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel58.setText("RESPONSABLE");
 
+        txtResponsableSedes.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
         btnGuardarSedes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/guardar.png"))); // NOI18N
+        btnGuardarSedes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarSedesActionPerformed(evt);
+            }
+        });
 
         btnModificarSedes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/modificar.png"))); // NOI18N
+        btnModificarSedes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarSedesActionPerformed(evt);
+            }
+        });
 
         btnEliminarSedes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/eliminar.png"))); // NOI18N
+        btnEliminarSedes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarSedesActionPerformed(evt);
+            }
+        });
 
         btnExcelSedes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/excel.png"))); // NOI18N
 
@@ -1740,12 +1797,12 @@ public class Aplicacion extends javax.swing.JFrame {
                     .addComponent(jLabel53, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtIDSedes)
                     .addComponent(jLabel54, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtNombreSedes)
+                    .addComponent(txtDireccionSedes)
                     .addComponent(jLabel55, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel56, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField44)
+                    .addComponent(txtEmailSedes)
                     .addComponent(jLabel57, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField45)
+                    .addComponent(txtTelefonoSedes)
                     .addComponent(jLabel58, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel19Layout.createSequentialGroup()
                         .addComponent(btnGuardarSedes)
@@ -1769,17 +1826,17 @@ public class Aplicacion extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel54)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtNombreSedes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtDireccionSedes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel55)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel56)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField44, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtEmailSedes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel57)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField45, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtTelefonoSedes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel58)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1804,6 +1861,11 @@ public class Aplicacion extends javax.swing.JFrame {
                 "ID", "Direccion", "Email", "Telefono", "Responsable"
             }
         ));
+        tablaSedes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaSedesMouseClicked(evt);
+            }
+        });
         jScrollPane6.setViewportView(tablaSedes);
 
         javax.swing.GroupLayout jPanel20Layout = new javax.swing.GroupLayout(jPanel20);
@@ -1917,10 +1979,25 @@ public class Aplicacion extends javax.swing.JFrame {
         Password.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         btnGuardarLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/guardar.png"))); // NOI18N
+        btnGuardarLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarLoginActionPerformed(evt);
+            }
+        });
 
         btnModificarLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/modificar.png"))); // NOI18N
+        btnModificarLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarLoginActionPerformed(evt);
+            }
+        });
 
         btnEliminarLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/eliminar.png"))); // NOI18N
+        btnEliminarLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarLoginActionPerformed(evt);
+            }
+        });
 
         btnExcelLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/excel.png"))); // NOI18N
 
@@ -1995,6 +2072,11 @@ public class Aplicacion extends javax.swing.JFrame {
                 "ID", "Nombre", "Email", "Contraseña"
             }
         ));
+        tablaLogin.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaLoginMouseClicked(evt);
+            }
+        });
         jScrollPane7.setViewportView(tablaLogin);
 
         javax.swing.GroupLayout jPanel23Layout = new javax.swing.GroupLayout(jPanel23);
@@ -2252,7 +2334,7 @@ public class Aplicacion extends javax.swing.JFrame {
     //BOTON USUARIOS
     private void btnUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuariosActionPerformed
         panelPrincipal.setSelectedComponent(panelUsuarios);
-        LimpiarTabla();
+        LimpiarTabla(); 
         tablaUsuarios();
         panelPrincipal.setSelectedIndex(4);
     }//GEN-LAST:event_btnUsuariosActionPerformed
@@ -2260,11 +2342,17 @@ public class Aplicacion extends javax.swing.JFrame {
     //BOTON SEDES
     private void btnSedesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSedesActionPerformed
         panelPrincipal.setSelectedComponent(panelSedes);
+        LimpiarTabla();
+        tablaSedes();
+        panelPrincipal.setSelectedIndex(5);
     }//GEN-LAST:event_btnSedesActionPerformed
 
     //BOTON LOGIN
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         panelPrincipal.setSelectedComponent(panelLogin);
+        LimpiarTabla();
+        tablaLogin();
+        panelPrincipal.setSelectedIndex(6);
     }//GEN-LAST:event_btnLoginActionPerformed
 
     //BOTON DATOS
@@ -2599,6 +2687,127 @@ public class Aplicacion extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnEliminarUsuariosActionPerformed
 
+    //BOTON GUARDAR SEDES
+    private void btnGuardarSedesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarSedesActionPerformed
+        if (!"".equals(txtDireccionSedes.getText()) || !"".equals(txtEmailSedes.getText()) || !"".equals(txtTelefonoSedes.getText()) || !"".equals(txtResponsableSedes.getText())) {
+            SD.setDireccionSedes(txtDireccionSedes.getText());
+            SD.setEmailSedes(txtEmailSedes.getText());
+            SD.setTelefonoSedes(txtTelefonoSedes.getText());
+            SD.setResponsableSedes(txtResponsableSedes.getText());
+            SDDAO.RegistrarSedes(SD);
+            LimpiarTabla();
+            LimpiarSedes();
+            tablaSedes();
+            JOptionPane.showMessageDialog(null, "SEDE REGISTRADA");
+        } else {
+            JOptionPane.showMessageDialog(null, "EXISTEN CAMPOS VACIOS");
+        }
+    }//GEN-LAST:event_btnGuardarSedesActionPerformed
+
+    //SELECCIONAR FILA EN TABLA SEDES
+    private void tablaSedesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaSedesMouseClicked
+        int fila = tablaSedes.rowAtPoint(evt.getPoint());
+        txtIDSedes.setText(tablaSedes.getValueAt(fila, 0).toString());
+        txtDireccionSedes.setText(tablaSedes.getValueAt(fila, 1).toString());
+        txtEmailSedes.setText(tablaSedes.getValueAt(fila, 2).toString());
+        txtTelefonoSedes.setText(tablaSedes.getValueAt(fila, 3).toString());
+        txtResponsableSedes.setText(tablaSedes.getValueAt(fila, 4).toString());
+    }//GEN-LAST:event_tablaSedesMouseClicked
+
+    //BOTON MODIFICAR SEDES
+    private void btnModificarSedesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarSedesActionPerformed
+        if ("".equals(txtIDSedes.getText())) {
+            JOptionPane.showMessageDialog(null, "Selecciona una fila");
+        } else {
+            if (!"".equals(txtDireccionSedes.getText()) && !"".equals(txtEmailSedes.getText()) && !"".equals(txtTelefonoSedes.getText()) && !"".equals(txtResponsableSedes.getText())) {
+                SD.setDireccionSedes(txtDireccionSedes.getText());
+                SD.setEmailSedes(txtEmailSedes.getText());
+                SD.setTelefonoSedes(txtTelefonoSedes.getText());
+                SD.setResponsableSedes(txtResponsableSedes.getText());
+                SDDAO.RegistrarSedes(SD);
+                LimpiarTabla();
+                LimpiarSedes();
+                tablaSedes();
+                JOptionPane.showMessageDialog(null, "SEDE MODIFICADO");
+            } else {
+                JOptionPane.showMessageDialog(null, "EXISTEN CAMPOS VACIOS");
+            }
+        }
+    }//GEN-LAST:event_btnModificarSedesActionPerformed
+
+    //BOTON ELIMINAR SEDES
+    private void btnEliminarSedesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarSedesActionPerformed
+        if (!"".equals(txtIDSedes.getText())) {
+            int pregunta = JOptionPane.showConfirmDialog(null, "ELIMINAR REGISTRO");
+            if (pregunta == 0) {
+                int IDSedes = Integer.parseInt(txtIDSedes.getText());
+                SDDAO.EliminarSedes(IDSedes);
+                LimpiarTabla();
+                LimpiarSedes();
+                tablaSedes();
+            }
+        }
+    }//GEN-LAST:event_btnEliminarSedesActionPerformed
+
+    //BOTON GUARDAR LOGIN
+    private void btnGuardarLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarLoginActionPerformed
+        if (!"".equals(txtNombreLogin.getText()) || !"".equals(txtEmailLogin.getText()) || !"".equals(Password.getText())) {
+            LG.setNombreLogin(txtNombreLogin.getText());
+            LG.setEmailLogin(txtEmailLogin.getText());
+            LG.setPassword(Password.getText());
+            LGDAO.RegistrarLogin(LG);
+            LimpiarTabla();
+            LimpiarLogin();
+            tablaLogin();
+            JOptionPane.showMessageDialog(null, "LOGIN REGISTRADO");
+        } else {
+            JOptionPane.showMessageDialog(null, "EXISTEN CAMPOS VACIOS");
+        }
+    }//GEN-LAST:event_btnGuardarLoginActionPerformed
+
+    //SELECCIONAR FILA EN TABLA LOGIN
+    private void tablaLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaLoginMouseClicked
+        int fila = tablaLogin.rowAtPoint(evt.getPoint());
+        txtIDLogin.setText(tablaLogin.getValueAt(fila, 0).toString());
+        txtNombreLogin.setText(tablaLogin.getValueAt(fila, 1).toString());
+        txtEmailLogin.setText(tablaLogin.getValueAt(fila, 2).toString());
+        Password.setText(tablaLogin.getValueAt(fila, 3).toString());
+    }//GEN-LAST:event_tablaLoginMouseClicked
+
+    //BOTON MODIFICAR LOGIN
+    private void btnModificarLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarLoginActionPerformed
+        if ("".equals(txtIDLogin.getText())) {
+            JOptionPane.showMessageDialog(null, "Selecciona una fila");
+        } else {
+            if (!"".equals(txtNombreLogin.getText()) && !"".equals(txtEmailLogin.getText()) && !"".equals(Password.getText())) {
+                LG.setNombreLogin(txtNombreLogin.getText());
+                LG.setEmailLogin(txtEmailLogin.getText());
+                LG.setPassword(Password.getText());
+                LGDAO.RegistrarLogin(LG);
+                LimpiarTabla();
+                LimpiarLogin();
+                tablaLogin();
+                JOptionPane.showMessageDialog(null, "LOGIN MODIFICADO");
+            } else {
+                JOptionPane.showMessageDialog(null, "EXISTEN CAMPOS VACIOS");
+            }
+        }
+    }//GEN-LAST:event_btnModificarLoginActionPerformed
+
+    //BOTON ELIMINAR LOGIN
+    private void btnEliminarLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarLoginActionPerformed
+        if (!"".equals(txtIDLogin.getText())) {
+            int pregunta = JOptionPane.showConfirmDialog(null, "ELIMINAR REGISTRO");
+            if (pregunta == 0) {
+                int IDLogin = Integer.parseInt(txtIDLogin.getText());
+                LGDAO.EliminarLogin(IDLogin);
+                LimpiarTabla();
+                LimpiarLogin();
+                tablaLogin();
+            }
+        }
+    }//GEN-LAST:event_btnEliminarLoginActionPerformed
+
     public static void main(String args[]) {
 
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -2784,8 +2993,6 @@ public class Aplicacion extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane9;
-    private javax.swing.JTextField jTextField44;
-    private javax.swing.JTextField jTextField45;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JPanel panelDatos;
     private javax.swing.JPanel panelDonantes;
@@ -2820,10 +3027,12 @@ public class Aplicacion extends javax.swing.JFrame {
     private javax.swing.JTextArea txtDescripcionProductos;
     private javax.swing.JTextField txtDireccion;
     private javax.swing.JTextField txtDireccionONG;
+    private javax.swing.JTextField txtDireccionSedes;
     private javax.swing.JTextField txtDireccionUsuarios;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtEmailLogin;
     private javax.swing.JTextField txtEmailONG;
+    private javax.swing.JTextField txtEmailSedes;
     private javax.swing.JTextField txtEmailUsuarios;
     private javax.swing.JTextField txtID;
     private javax.swing.JTextField txtIDDonante;
@@ -2839,12 +3048,12 @@ public class Aplicacion extends javax.swing.JFrame {
     private javax.swing.JTextField txtNombreONG2;
     private javax.swing.JTextField txtNombreONG3;
     private javax.swing.JTextField txtNombreProductos;
-    private javax.swing.JTextField txtNombreSedes;
     private javax.swing.JTextField txtNombreUsuarios;
     private javax.swing.JTextField txtNombreZona;
     private javax.swing.JTextField txtPaisZona;
     private javax.swing.JTextField txtResponsableSedes;
     private javax.swing.JTextField txtTelefonoONG;
+    private javax.swing.JTextField txtTelefonoSedes;
     // End of variables declaration//GEN-END:variables
 
     public void LimpiarDonantes() {
@@ -2896,5 +3105,21 @@ public class Aplicacion extends javax.swing.JFrame {
         txtEmailUsuarios.setText("");
         txtDireccionUsuarios.setText("");
     }
+
+    public void LimpiarSedes() {
+
+        txtIDSedes.setText("");
+        txtDireccionSedes.setText("");
+        txtEmailSedes.setText("");
+        txtTelefonoSedes.setText("");
+        txtResponsableSedes.setText("");
+    }
     
+    public void LimpiarLogin() {
+
+        txtIDLogin.setText("");
+        txtNombreLogin.setText("");
+        txtEmailLogin.setText("");
+        Password.setText("");
+    }
 }
