@@ -1,13 +1,14 @@
 package Vista;
 
-import Modelo.LoginDAO;
+
+import Modelo.LoginDAO1;
 import Modelo.login;
 import javax.swing.JOptionPane;
 
 public class Login extends javax.swing.JFrame {
 
     login lg = new login();
-    LoginDAO login = new LoginDAO();
+    LoginDAO1 login = new LoginDAO1();
     
     public Login() {
         initComponents();

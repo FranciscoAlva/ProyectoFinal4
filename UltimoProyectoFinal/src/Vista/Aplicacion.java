@@ -2,7 +2,7 @@ package Vista;
 
 
 import Modelo.login;
-import Modelo.LoginDAO;
+import Modelo.LoginDAO1;
 import Modelo.Donante;
 import Modelo.DonanteDAO;
 import Modelo.LoginDAO2;
@@ -2350,24 +2350,8 @@ public class Aplicacion extends javax.swing.JFrame {
 
     //BOTON MODIFICAR DONANTES
     private void btnModificarDonantesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarDonantesActionPerformed
-        if ("".equals(txtID.getText())) {
-            JOptionPane.showMessageDialog(null, "Selecciona una fila");
-        } else {
-            if (!"".equals(txtNombre.getText()) && !"".equals(txtApellidos.getText()) && !"".equals(txtDNI.getText()) && !"".equals(txtEmail.getText()) && !"".equals(txtDireccion.getText())) {
-                donan.setNombre(txtNombre.getText());
-                donan.setApellidos(txtApellidos.getText());
-                donan.setDNI(txtDNI.getText());
-                donan.setEmail(txtEmail.getText());
-                donan.setDireccion(txtDireccion.getText());
-                donan2.RegistrarDonante(donan);
-                LimpiarTabla();
-                LimpiarDonantes();
-                tablaDonantes();
-                JOptionPane.showMessageDialog(null, "DONANTE MODIFICADO");
-            } else {
-                JOptionPane.showMessageDialog(null, "EXISTEN CAMPOS VACIOS");
-            }
-        }
+        
+        
     }//GEN-LAST:event_btnModificarDonantesActionPerformed
 
     //BOTON ELIMINAR DONANTES

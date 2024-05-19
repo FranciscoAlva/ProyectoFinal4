@@ -92,7 +92,7 @@ public class DonanteDAO {
             ps.setString(3, cl.getDNI());
             ps.setString(4, cl.getEmail());
             ps.setString(5, cl.getDireccion());
-            ps.execute();
+            ps.executeUpdate();
             return true;
         }catch(SQLException e){
             System.out.println(e.toString());
